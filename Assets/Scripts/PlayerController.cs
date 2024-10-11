@@ -20,13 +20,14 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rb = gameObject.GetComponent<Rigidbody2D>();
-        boxCollider2D = GetComponent<BoxCollider2D>();
+        rb = gameObject.GetComponent<Rigidbody2D>();    // get Rigidbody2D component
+        boxCollider2D = GetComponent<BoxCollider2D>();  // get BoxCollider2D component
     }
 
     // Update is called once per frame
     void Update()
     {
+        // check if 1 second (timestamp time) has passed
         if (IsGrounded() && Time.time >= timestamp)
         {
             if (jumped || doubleJumped)
@@ -35,29 +36,34 @@ public class PlayerController : MonoBehaviour
                 doubleJumped = false;
             }
 
-            timestamp = Time.time + 1f;
+            timestamp = Time.time + 1f; // current time + 1 second
         }
 
-        if (Input.GetMouseButtonDown(0))
-        {
+        // GetMouseButtonDown != GetMouseButton
+        if (Input.GetMouseButtonDown(0)) 
+            {
             if (!jumped)
             {
-                rb.velocity = (new Vector2(0f, jumpForce));
+                rb.velocity = (new Vector2(0f, jumpForce)); // set force upwards
+                //rb.AddForce(new Vector2(0f, jumpForce * 40)); // alternative way: add force instead of setting it
                 jumped = true;
             }
             else if (!doubleJumped)
             {
-                rb.velocity = (new Vector2(0f, doubleJumpForce));
+                rb.velocity = (new Vector2(0f, doubleJumpForce)); // set force upwards
+                //rb.AddForce(new Vector2(0f, jumpForce * 40)); // alternative way: add force instead of setting it
                 doubleJumped = true;
             }
         }
 
+        // holding left mouse button slows down falling
         if (Input.GetMouseButton(0) && rb.velocity.y <= 0)
         {
             rb.AddForce(new Vector2(0f, liftingForce * Time.deltaTime));
         }
     }
 
+    // check whether player touched ground: could be floor, platform, etc.
     private bool IsGrounded()
     {
         RaycastHit2D hit = Physics2D.BoxCast(boxCollider2D.bounds.center, boxCollider2D.bounds.size, 0f, Vector2.down, 0.1f, whatIsFloor);

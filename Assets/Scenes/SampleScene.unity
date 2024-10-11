@@ -517,7 +517,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpForce: 5
   doubleJumpForce: 4
-  liftingForce: 200
+  liftingForce: 400
   jumped: 0
   doubleJumped: 0
   whatIsFloor:
