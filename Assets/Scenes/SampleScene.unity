@@ -1253,6 +1253,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floorTile1: {fileID: 1197411949}
   floorTile2: {fileID: 1051187755}
+  tiles:
+  - {fileID: 6124469044611811934, guid: 579afa75de54ee74ab4d3b448c9d9fc4, type: 3}
+  - {fileID: 4580087373396128058, guid: 97bab2f505584d947a55e014e75cfb4a, type: 3}
+  - {fileID: 2850395303110649456, guid: 58b1245d81573b046b1877a9f44bbcf5, type: 3}
+  - {fileID: 2635560274668293848, guid: 42297c3cecc171f44b083dafdf20834c, type: 3}
 --- !u!4 &780860858
 Transform:
   m_ObjectHideFlags: 0
@@ -3587,7 +3592,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 3
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -3611,9 +3616,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe28f68bc6bb02749b8c882d02f8cab7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 5
-  doubleJumpForce: 4
-  liftingForce: 400
+  jumpForce: 14
+  doubleJumpForce: 12
+  liftingForce: 600
   jumped: 0
   doubleJumped: 0
   whatIsFloor:
