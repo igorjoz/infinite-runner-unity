@@ -28,6 +28,8 @@ public class FloorController : MonoBehaviour
             int tileIndex = Random.Range(0, tiles.Length);
             var newTile = Instantiate(tiles[tileIndex], floorTile2.transform.position + new Vector3(16f, 0f, 0f), Quaternion.identity);
 
+            Destroy(floorTile1);
+
             //Zamieniam zmienne
             // CHANGE: var tmp = floorTile1;
             floorTile1 = floorTile2;
