@@ -14,10 +14,8 @@ public class FloorController : MonoBehaviour
     {
         //Co tick silnika fizyki przesuwamy oba kafelki o worldScrolingSpeed
         // -= poniewa¿ chcemy przesuwaæ œwiat w lewo, czyli zmniejszaæ wspó³rzêdn¹ X
-        floorTile1.transform.position -= new
-        Vector3(GameManager.instance.worldScrollingSpeed, 0f, 0f);
-        floorTile2.transform.position -= new
-        Vector3(GameManager.instance.worldScrollingSpeed, 0f, 0f);
+        floorTile1.transform.position -= new Vector3(GameManager.instance.worldScrollingSpeed, 0f, 0f);
+        floorTile2.transform.position -= new Vector3(GameManager.instance.worldScrollingSpeed, 0f, 0f);
 
         //Jeœli œrodek prawego kafelka przejecha³ przez œrodek ekranu (x < 0) lewy kafelek przenosimy
 
@@ -28,11 +26,10 @@ public class FloorController : MonoBehaviour
 
             int randomTileIndex = Random.Range(0, tiles.Length);
             var newTile = Instantiate(tiles[randomTileIndex], floorTile2.transform.position + new Vector3(16f, 0f, 0f), Quaternion.identity);
+
             Destroy(floorTile1);
 
-
             //Zamieniam zmienne
-            //var tmp = floorTile1; DO USUNIÊCIA
             floorTile1 = floorTile2;
             floorTile2 = newTile;
         }
