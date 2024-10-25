@@ -3,33 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 public class FloorController : MonoBehaviour
 {
-    //Pola do ktï¿½rych przypisujemy duï¿½e kafelki z podï¿½ogï¿½
-    //Zakï¿½adamy, ï¿½e na poczï¿½tku do floorTile1 jest przypisany lewy kafelek
+    //Pola do których przypisujemy du¿e kafelki z pod³og¹
+    //Zak³adamy, ¿e na pocz¹tku do floorTile1 jest przypisany lewy kafelek
     public GameObject floorTile1, floorTile2;
+    public GameObject[] tiles;
 
-    // UWAGA - korzystamy z metody FixedUpdate, ktï¿½ra wywoï¿½uje siï¿½ raz na tick silnika fizyki a nie co klatkï¿½.
-    // Pozwoli nam to uniezaleï¿½niï¿½ ruchy obiektï¿½w od iloï¿½ci wyï¿½wietlanych w danym momencie klatek na sekundï¿½
+    // UWAGA - korzystamy z metody FixedUpdate, która wywo³uje siê raz na tick silnika fizyki a nie co klatkê.
+    // Pozwoli nam to uniezale¿niæ ruchy obiektów od iloœci wyœwietlanych w danym momencie klatek na sekundê
     void FixedUpdate()
     {
         //Co tick silnika fizyki przesuwamy oba kafelki o worldScrolingSpeed
-        // -= poniewaï¿½ chcemy przesuwaï¿½ ï¿½wiat w lewo, czyli zmniejszaï¿½ wspï¿½rzï¿½dnï¿½ X
-        floorTile1.transform.position -= new
-        Vector3(GameManager.instance.worldScrollingSpeed, 0f, 0f);
-        floorTile2.transform.position -= new
-        Vector3(GameManager.instance.worldScrollingSpeed, 0f, 0f);
+        // -= poniewa¿ chcemy przesuwaæ œwiat w lewo, czyli zmniejszaæ wspó³rzêdn¹ X
+        floorTile1.transform.position -= new Vector3(GameManager.instance.worldScrollingSpeed, 0f, 0f);
+        floorTile2.transform.position -= new Vector3(GameManager.instance.worldScrollingSpeed, 0f, 0f);
 
-        //Jeï¿½li ï¿½rodek prawego kafelka przejechaï¿½ przez ï¿½rodek ekranu (x < 0) lewy kafelek przenosimy
+        //Jeœli œrodek prawego kafelka przejecha³ przez œrodek ekranu (x < 0) lewy kafelek przenosimy
 
-        //na jego prawï¿½ stronï¿½ i zamieniamy zmienne
+        //na jego praw¹ stronê i zamieniamy zmienne
         if (floorTile2.transform.position.x < 0f)
         {
-            //przesuwam lewy kafelek w prawo o 32 jednostki (czyli 2 jego szerokoï¿½ci)
+            //przesuwam lewy kafelek w prawo o 32 jednostki (czyli 2 jego szerokoœci)
 
-            floorTile1.transform.position += new Vector3(32f, 0f, 0f);
+            int randomTileIndex = Random.Range(0, tiles.Length);
+            var newTile = Instantiate(tiles[randomTileIndex], floorTile2.transform.position + new Vector3(16f, 0f, 0f), Quaternion.identity);
+
+            Destroy(floorTile1);
+
             //Zamieniam zmienne
-            var tmp = floorTile1;
             floorTile1 = floorTile2;
-            floorTile2 = tmp;
+            floorTile2 = newTile;
         }
     }
 }
