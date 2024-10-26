@@ -27,6 +27,11 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!GameManager.instance.isInGame)
+        {
+            return;
+        }
+
         // check if 1 second (timestamp time) has passed
         if (IsGrounded() && Time.time >= timestamp)
         {
@@ -63,11 +68,28 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Obstacle"))
+        {
+            HandlePlayerDeath();
+        }
+    }
+
     // check whether player touched ground: could be floor, platform, etc.
     private bool IsGrounded()
     {
         RaycastHit2D hit = Physics2D.BoxCast(boxCollider2D.bounds.center, boxCollider2D.bounds.size, 0f, Vector2.down, 0.1f, whatIsFloor);
 
         return hit.collider != null;
+    }
+
+    void HandlePlayerDeath()
+    {
+        // alternatywa dla rb.simulated = false
+        //rb.constraints = RigidbodyConstraints2D.FreezeAll;
+
+        rb.simulated = false;
+        GameManager.instance.HandleGameOver();
     }
 }
