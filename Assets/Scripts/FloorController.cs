@@ -12,6 +12,11 @@ public class FloorController : MonoBehaviour
     // Pozwoli nam to uniezale¿niæ ruchy obiektów od iloœci wyœwietlanych w danym momencie klatek na sekundê
     void FixedUpdate()
     {
+        if (!GameManager.instance.isInGame)
+        {
+            return;
+        }
+
         //Co tick silnika fizyki przesuwamy oba kafelki o worldScrolingSpeed
         // -= poniewa¿ chcemy przesuwaæ œwiat w lewo, czyli zmniejszaæ wspó³rzêdn¹ X
         floorTile1.transform.position -= new Vector3(GameManager.instance.worldScrollingSpeed, 0f, 0f);
