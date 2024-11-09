@@ -54,3 +54,6 @@ TagManager:
   - name: Obstacles
     uniqueID: 2564446159
     locked: 0
+  - name: Platforms
+    uniqueID: 3944203
+    locked: 0
