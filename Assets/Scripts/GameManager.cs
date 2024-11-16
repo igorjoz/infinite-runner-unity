@@ -4,6 +4,7 @@ using UnityEngine;
 //using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using MyGame.Powerups;
 public class GameManager : MonoBehaviour
 {
     //Tworzymy statyczn¹ zmienn¹ przechowuj¹c¹ jedyny obiekt klasy GameManager (wg. wzorca Singletonu)
@@ -22,6 +23,9 @@ public class GameManager : MonoBehaviour
     public GameObject resetButton;
 
     private int coins;
+
+    public Immortality immortality;
+    public Magnet magnet;
 
 
     // Use this for initialization
@@ -66,6 +70,9 @@ public class GameManager : MonoBehaviour
         }
 
         UpdateOnScreenScore();
+
+        immortality.isActive = false;
+        magnet.isActive = false;
     }
 
     public void HandleGameOver()
@@ -84,5 +91,36 @@ public class GameManager : MonoBehaviour
         coins += coinValue;
         PlayerPrefs.SetInt("Coins", coins);
         UpdateOnScreenScore();
+    }
+
+    public void ImmortalityCollected()
+    {
+        //Jeœli gracz ju¿ jest nieœmiertelny anulujemy invoke z wy³¹czeniem nieœmiertelnoœci i sami anulujemy nieœmiertelnoœæ by j¹ potem w³¹czyæ(spowoduje to przed³u¿enie czasu jej trwania)
+        if (immortality.isActive)
+        {
+            CancelInvoke("CancelImmortality");
+            CancelImmortality();
+        }
+        immortality.isActive = true;
+        worldScrollingSpeed += immortality.GetSpeedBoost();
+        Invoke("CancelImmortality", immortality.GetDuration());
+    }
+
+    private void CancelImmortality()
+    {
+        worldScrollingSpeed -= immortality.GetSpeedBoost();
+        immortality.isActive = false;
+    }
+
+    public void MagnetCollected()
+    {
+        if (magnet.isActive)
+            CancelInvoke("CancelMagnet");
+        magnet.isActive = true;
+        Invoke("CancelMagnet", magnet.GetDuration());
+    }
+    private void CancelMagnet()
+    {
+        magnet.isActive = false;
     }
 }
