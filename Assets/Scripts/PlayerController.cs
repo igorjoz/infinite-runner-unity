@@ -74,6 +74,11 @@ public class PlayerController : MonoBehaviour
         {
             HandlePlayerDeath();
         }
+        else if (other.CompareTag("Coin"))
+        {
+            GameManager.instance.HandleCoinCollection();
+            Destroy(other.gameObject);
+        }
     }
 
     // check whether player touched ground: could be floor, platform, etc.

@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     //Pole na element UI Text s³u¿¹cy do wyœwietlania wyniku
     public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI coinScoreText;
     //Pole zawieraj¹ce prêdkoœæ œwiata do którego bêdzie móg³ odwo³aæ siê dowolny obiekt w grze
     //Ustawienie wartoœci nastêpuje w edytorze
     public float worldScrollingSpeed;
@@ -19,6 +20,8 @@ public class GameManager : MonoBehaviour
 
     public bool isInGame;
     public GameObject resetButton;
+
+    private int coins;
 
 
     // Use this for initialization
@@ -45,11 +48,24 @@ public class GameManager : MonoBehaviour
     {
         //Wyœwietlamy na elemencie nasz wynik bez czêœci dziesiêtnej
         scoreText.text = score.ToString("0");
+        coinScoreText.text = coins.ToString("0");
     }
 
     void InitializeGame()
     {
         isInGame = true;
+
+        if (PlayerPrefs.HasKey("Coins"))
+        {
+            coins = PlayerPrefs.GetInt("Coins");
+        }
+        else
+        {
+            coins = 0;
+            PlayerPrefs.SetInt("Coins", 0);
+        }
+
+        UpdateOnScreenScore();
     }
 
     public void HandleGameOver()
@@ -61,5 +77,12 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         SceneManager.LoadScene(0);
+    }
+
+    public void HandleCoinCollection(int coinValue = 1)
+    {
+        coins += coinValue;
+        PlayerPrefs.SetInt("Coins", coins);
+        UpdateOnScreenScore();
     }
 }
