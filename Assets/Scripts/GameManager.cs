@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     public GameObject resetButton;
 
     private int coins;
+    public Immortality immortality;
 
 
     // Use this for initialization
@@ -66,6 +67,7 @@ public class GameManager : MonoBehaviour
         }
 
         UpdateOnScreenScore();
+        immortality.isActive = false;
     }
 
     public void HandleGameOver()
@@ -84,5 +86,24 @@ public class GameManager : MonoBehaviour
         coins += coinValue;
         PlayerPrefs.SetInt("Coins", coins);
         UpdateOnScreenScore();
+    }
+
+    public void HandleImmortalityCollection()
+    {
+        if (immortality.isActive)
+        {
+            CancelInvoke("CancelImmortality");
+            CancelImmortality();
+        }
+
+        immortality.isActive = true;
+        worldScrollingSpeed += immortality.GetSpeedBoost();
+        Invoke("CancelImmortality", immortality.GetDuration());
+    }
+
+    private void CancelImmortality()
+    {
+        worldScrollingSpeed -= immortality.GetSpeedBoost();
+        immortality.isActive = false;
     }
 }
