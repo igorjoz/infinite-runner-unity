@@ -78,7 +78,7 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene("Game");
     }
 
     public void HandleCoinCollection(int coinValue = 1)
