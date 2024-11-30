@@ -10,14 +10,15 @@ public class MenuManager : MonoBehaviour
     public TextMeshProUGUI coinsValue;
     public TextMeshProUGUI soundButtonText;
 
-    int highScore = 0;
+    float highScore = 0f; // Float for internal high score storage
     int coins = 0;
 
     void Start()
     {
         if (PlayerPrefs.HasKey("HighScoreValue"))
         {
-            highScore = PlayerPrefs.GetInt("HighScoreValue");
+            highScore = PlayerPrefs.GetFloat("HighScoreValue"); // Retrieve as float
+            Debug.Log($"High Score Loaded: {Mathf.FloorToInt(highScore)}");
         }
 
         if (PlayerPrefs.HasKey("Coins"))
@@ -30,7 +31,8 @@ public class MenuManager : MonoBehaviour
 
     public void UpdateUI()
     {
-        highScoreValue.text = highScore.ToString();
+        // Display high score as integer
+        highScoreValue.text = Mathf.FloorToInt(highScore).ToString();
         coinsValue.text = coins.ToString();
 
         if (SoundManager.instance.GetMuted())
@@ -51,7 +53,7 @@ public class MenuManager : MonoBehaviour
     public void SoundButtonClicked()
     {
         SoundManager.instance.ToggleMuted();
-
         UpdateUI();
     }
 }
+

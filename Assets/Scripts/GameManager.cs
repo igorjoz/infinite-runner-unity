@@ -6,17 +6,15 @@ using TMPro;
 using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
-    //Tworzymy statyczn¹ zmienn¹ przechowuj¹c¹ jedyny obiekt klasy GameManager (wg. wzorca Singletonu)
-    //Pozwoli to na odwo³¹nie siê do GameManagera w dowolnym miejscu projektu poprzez GameManager.instance
     public static GameManager instance;
-    //Pole na element UI Text s³u¿¹cy do wyœwietlania wyniku
+
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI coinScoreText;
-    //Pole zawieraj¹ce prêdkoœæ œwiata do którego bêdzie móg³ odwo³aæ siê dowolny obiekt w grze
-    //Ustawienie wartoœci nastêpuje w edytorze
+
     public float worldScrollingSpeed;
-    //Pole na wynik
-    private float score;
+
+    private float score; // Float for internal score calculation
+    private float highScoreValue; // Float for internal high score calculation
 
     public bool isInGame;
     public GameObject resetButton;
@@ -24,32 +22,25 @@ public class GameManager : MonoBehaviour
     private int coins;
     public Immortality immortality;
 
-
-    // Use this for initialization
     void Start()
     {
-        //Podczas uruchomienia przypisujemy aktualn¹ instancjê do statycznego pola instance
-        //!!! Nale¿y uwa¿aæ, ¿eby zawsze na scenie by³ dok³adnie jeden GameManager !!!
         instance = this;
-
         InitializeGame();
     }
+
     void FixedUpdate()
     {
-        if (!GameManager.instance.isInGame)
-        {
-            return;
-        }
+        if (!isInGame) return;
 
-        //Co tick silnika fizyki dopisujemy do wyniku przebyt¹ odleg³oœæ i wywo³ujemy metodê wyœwietlaj¹c¹ wynik na ekranie
-        score += worldScrollingSpeed;
+        score += worldScrollingSpeed * Time.fixedDeltaTime; // Accumulate score as float
         UpdateOnScreenScore();
     }
+
     void UpdateOnScreenScore()
     {
-        //Wyœwietlamy na elemencie nasz wynik bez czêœci dziesiêtnej
-        scoreText.text = score.ToString("0");
-        coinScoreText.text = coins.ToString("0");
+        // Display scores as integers
+        scoreText.text = Mathf.FloorToInt(score).ToString();
+        coinScoreText.text = coins.ToString();
     }
 
     void InitializeGame()
@@ -66,6 +57,16 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.SetInt("Coins", 0);
         }
 
+        if (PlayerPrefs.HasKey("HighScoreValue"))
+        {
+            highScoreValue = PlayerPrefs.GetFloat("HighScoreValue"); // Retrieve as float
+        }
+        else
+        {
+            highScoreValue = 0f;
+            PlayerPrefs.SetFloat("HighScoreValue", highScoreValue);
+        }
+
         UpdateOnScreenScore();
         immortality.isActive = false;
     }
@@ -74,6 +75,13 @@ public class GameManager : MonoBehaviour
     {
         isInGame = false;
         resetButton.SetActive(true);
+
+        if (score > highScoreValue)
+        {
+            highScoreValue = score;
+            PlayerPrefs.SetFloat("HighScoreValue", highScoreValue); // Save as float
+            Debug.Log($"New High Score Saved: {Mathf.FloorToInt(highScoreValue)}");
+        }
     }
 
     public void RestartGame()
@@ -107,3 +115,5 @@ public class GameManager : MonoBehaviour
         immortality.isActive = false;
     }
 }
+
+
