@@ -10,6 +10,9 @@ public class MenuManager : MonoBehaviour
     public TextMeshProUGUI coinsValue;
     public TextMeshProUGUI soundButtonText;
 
+    public GameObject mainMenuPanel;
+    public GameObject upgradeStorePanel;
+
     int highScore = 0;
     int coins = 0;
 
@@ -53,5 +56,17 @@ public class MenuManager : MonoBehaviour
         SoundManager.instance.ToggleMuted();
 
         UpdateUI();
+    }
+
+    public void UpgradeStoreButtonClicked()
+    {
+        mainMenuPanel.SetActive(false);
+        upgradeStorePanel.SetActive(true);
+    }
+
+    public void CloseUpgradeStoreButtonClicked()
+    {
+        mainMenuPanel.SetActive(true);
+        upgradeStorePanel.SetActive(false);
     }
 }
