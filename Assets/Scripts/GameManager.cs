@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
     private int coins;
     public Immortality immortality;
 
+    private int highScore;
+
 
     // Use this for initialization
     void Start()
@@ -43,6 +45,7 @@ public class GameManager : MonoBehaviour
 
         //Co tick silnika fizyki dopisujemy do wyniku przebyt¹ odleg³oœæ i wywo³ujemy metodê wyœwietlaj¹c¹ wynik na ekranie
         score += worldScrollingSpeed;
+
         UpdateOnScreenScore();
     }
     void UpdateOnScreenScore()
@@ -50,6 +53,12 @@ public class GameManager : MonoBehaviour
         //Wyœwietlamy na elemencie nasz wynik bez czêœci dziesiêtnej
         scoreText.text = score.ToString("0");
         coinScoreText.text = coins.ToString("0");
+
+        if (score > highScore)
+        {
+            highScore = (int)score;
+            PlayerPrefs.SetInt("HighScore", highScore);
+        }
     }
 
     void InitializeGame()
@@ -64,6 +73,16 @@ public class GameManager : MonoBehaviour
         {
             coins = 0;
             PlayerPrefs.SetInt("Coins", 0);
+        }
+
+        if (PlayerPrefs.HasKey("HighScore"))
+        {
+            coins = PlayerPrefs.GetInt("HighScore");
+        }
+        else
+        {
+            coins = 0;
+            PlayerPrefs.SetInt("HighScore", 0);
         }
 
         UpdateOnScreenScore();
