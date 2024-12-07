@@ -12,4 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29a87e1b76c100d41b7ad2f0cb8e7bfd, type: 3}
   m_Name: ImmortalityDuration
   m_EditorClassIdentifier: 
-  value: 5
+  values:
+  - 5
+  - 10
+  - 15

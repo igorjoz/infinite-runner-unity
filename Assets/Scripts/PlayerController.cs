@@ -49,12 +49,14 @@ public class PlayerController : MonoBehaviour
             {
             if (!jumped)
             {
+                SoundManager.instance.PlayOnceJump();
                 rb.velocity = (new Vector2(0f, jumpForce)); // set force upwards
                 //rb.AddForce(new Vector2(0f, jumpForce * 40)); // alternative way: add force instead of setting it
                 jumped = true;
             }
             else if (!doubleJumped)
             {
+                SoundManager.instance.PlayOnceJump();
                 rb.velocity = (new Vector2(0f, doubleJumpForce)); // set force upwards
                 //rb.AddForce(new Vector2(0f, jumpForce * 40)); // alternative way: add force instead of setting it
                 doubleJumped = true;

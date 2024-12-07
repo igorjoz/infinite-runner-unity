@@ -10,6 +10,6 @@ public class Immortality : Powerup
 
     public float GetSpeedBoost()
     {
-        return speedBoost.GetValue();
+        return speedBoost.GetValue(currentLevel);
     }
 }

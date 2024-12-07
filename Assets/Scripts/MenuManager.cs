@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
@@ -12,6 +13,11 @@ public class MenuManager : MonoBehaviour
 
     public GameObject mainMenuPanel;
     public GameObject upgradeStorePanel;
+
+    public Text immortalityLevelText;
+    public Text immortalityButtonText;
+
+    public Powerup immortality;
 
     int highScore = 0;
     int coins = 0;
@@ -28,6 +34,9 @@ public class MenuManager : MonoBehaviour
             coins = PlayerPrefs.GetInt("Coins");
         }
 
+        mainMenuPanel.SetActive(true);
+        upgradeStorePanel.SetActive(false);
+
         UpdateUI();
     }
 
@@ -43,6 +52,25 @@ public class MenuManager : MonoBehaviour
         else
         {
             soundButtonText.text = "TURN SOUND OFF";
+        }
+
+        immortalityLevelText.text = immortality.ToString();
+        immortalityButtonText.text = immortality.UpgradeCostString();
+    }
+
+    public void ImmortalityUpgradeButtonClick()
+    {
+        UpgradePowerup(immortality);
+    }
+
+    public void UpgradePowerup(Powerup powerup)
+    {
+        if (coins >= powerup.GetNextUpgradeCost() && !powerup.IsMaxedOut())
+        {
+            coins -= powerup.GetNextUpgradeCost();
+            PlayerPrefs.SetInt("Coins", coins);
+            powerup.Upgrade();
+            UpdateUI();
         }
     }
 
