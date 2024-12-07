@@ -77,11 +77,11 @@ public class GameManager : MonoBehaviour
 
         if (PlayerPrefs.HasKey("HighScore"))
         {
-            coins = PlayerPrefs.GetInt("HighScore");
+            highScore = PlayerPrefs.GetInt("HighScore");
         }
         else
         {
-            coins = 0;
+            highScore = 0;
             PlayerPrefs.SetInt("HighScore", 0);
         }
 
